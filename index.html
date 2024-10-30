@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Birthday Card</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ffeedb;
+      overflow: hidden;
+    }
+
+    /* Container for the cake image */
+    .cake-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .cake {
+      width: 120px;
+      max-width: 40%;
+      position: absolute;
+      top: -150px;
+    }
+
+    /* Card styling */
+    .card {
+      width: 85%;
+      max-width: 380px;
+      height: 460px;
+      background: linear-gradient(145deg, #ffd1c2, #ff9f9f);
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    /* "Click to open" style */
+    .open-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      font-size: 2rem;
+      color: #fff;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .open-button:hover {
+      transform: scale(1.05);
+    }
+
+    /* Card content styling */
+    .card-content {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffe8cc;
+      border-radius: 15px;
+      padding: 20px 15px;
+    }
+
+    /* User picture */
+    .picture {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 10px auto;
+      border: 4px solid #ff6b6b;
+      object-fit: cover;
+    }
+
+    /* Custom message styling */
+    .custom-message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ff6b6b;
+      text-align: center;
+      padding: 0 10px;
+    }
+
+    /* Improved balloons */
+    .balloon {
+      position: absolute;
+      width: 35px;
+      height: 50px;
+      border-radius: 50% 50% 60% 60%;
+      background: linear-gradient(to bottom, #ff5a5f, #f86b6f);
+      animation: floatUp 5s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      width: 1.5px;
+      height: 10px;
+      background: #888;
+      transform: translateX(-50%);
+    }
+
+    .balloon:nth-child(1) { background: linear-gradient(to bottom, #ff6b6b, #ff8474); left: 15%; animation-duration: 5.2s; }
+    .balloon:nth-child(2) { background: linear-gradient(to bottom, #ffe066, #ffcb66); left: 30%; animation-duration: 5.8s; }
+    .balloon:nth-child(3) { background: linear-gradient(to bottom, #48dbfb, #48c3d3); left: 60%; animation-duration: 6s; }
+    .balloon:nth-child(4) { background: linear-gradient(to bottom, #a29bfe, #938bd3); left: 75%; animation-duration: 6.5s; }
+
+    @keyframes floatUp {
+      0% { bottom: -5%; transform: translateX(0); }
+      50% { transform: translateX(10px); }
+      100% { bottom: 100%; transform: translateX(-10px); }
+    }
+
+    /* Improved confetti */
+    .confetti {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background-color: #ff6b6b;
+      opacity: 0;
+      animation: fall 2.5s linear infinite;
+    }
+
+    @keyframes fall {
+      0% { opacity: 1; transform: translateY(-100px) rotate(0); }
+      100% { opacity: 0; transform: translateY(300px) rotate(720deg); }
+    }
+
+    .confetti:nth-child(1) { background-color: #ff9f43; left: 20%; animation-delay: 0s; }
+    .confetti:nth-child(2) { background-color: #1dd1a1; left: 35%; animation-delay: 0.5s; }
+    .confetti:nth-child(3) { background-color: #54a0ff; left: 50%; animation-delay: 0.3s; }
+    .confetti:nth-child(4) { background-color: #ff6b6b; left: 70%; animation-delay: 1s; }
+    .confetti:nth-child(5) { background-color: #feca57; left: 85%; animation-delay: 0.8s; }
+
+  </style>
+</head>
+<body>
+
+<div class="cake-container">
+  <img class="cake" src="C:\Users\gkiok\OneDrive\Desktop\cake.jpg" alt="Birthday Cake">
+</div>
+
+<div class="card" onclick="openCard()">
+  <div class="open-button">Click to Open</div>
+  <div class="card-content">
+    <img class="picture" src="C:\Users\gkiok\OneDrive\Desktop\cake.jpg" alt="User Picture" />
+    
+    <!-- Predefined Message (hard-coded) -->
+    <div class="custom-message">Wishing you a day filled with joy, laughter, and all the happiness you deserve! 🎉🎂</div>
+
+    <!-- Balloons and confetti -->
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+  </div>
+</div>
+
+<audio id="birthdayTune" src="sillyboy.mp3"></audio>
+
+<script>
+  function openCard() {
+    document.querySelector('.open-button').style.display = 'none';
+    document.querySelector('.card-content').style.display = 'block';
+    playTune();
+  }
+
+  function playTune() {
+    const tune = document.getElementById('birthdayTune');
+    tune.play();
+  }
+</script>
+
+</body>
+</html>
